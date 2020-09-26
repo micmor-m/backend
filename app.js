@@ -7,7 +7,7 @@ const db = require('./db');
 const dbHelpers = require('./helpers/dbHelpers')(db);
 
 
-
+//!!!!!!!!!!!!Separated Routes for each Resource
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -23,6 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//!!!!!!!!!!!!!Mount all resource routes
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter(dbHelpers));
 
