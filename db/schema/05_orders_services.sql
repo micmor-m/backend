@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS orders_services CASCADE;
+
+CREATE TABLE orders_services (
+  id SERIAL PRIMARY KEY NOT NULL,
+  orders_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  services_id INTEGER REFERENCES users(id) ON DELETE CASCADE
+);
