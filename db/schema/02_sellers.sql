@@ -7,7 +7,7 @@ CREATE TABLE sellers (
   address VARCHAR(255) NOT NULL,
   lat REAL  NOT NULL,
   lng REAL  NOT NULL,
-  picture_url TEXT NOT NULL,
+  -- picture_url TEXT NOT NULL,
   phone VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL
 );

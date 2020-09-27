@@ -1,6 +1,6 @@
 
 INSERT INTO
-  users(orders_id, services_id)
+  orders_services(orders_id, services_id)
 VALUES
   (1, 1),
   (2, 1),

@@ -6,5 +6,5 @@ CREATE TABLE services (
   name VARCHAR(255) NOT NULL,
   price INTEGER  NOT NULL DEFAULT 0,
   typeodservice VARCHAR(255) NOT NULL,
-  seller_id INTEGER REFERENCES seller(id) ON DELETE CASCADE
+  seller_id INTEGER REFERENCES sellers(id) ON DELETE CASCADE
 );
