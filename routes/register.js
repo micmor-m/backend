@@ -1,3 +1,4 @@
+/*
 const express = require("express");
 const router = express.Router();
 
@@ -10,11 +11,12 @@ module.exports = (db) => {
   router.get("/", (req, res) => {
     res.render("register");
   });
-
+*/
   /*
     This function runs a query to check whether the
     parameter values exist in the users table
   */
+/*
   const userExists = (email) => {
     const text = `
         SELECT id, name, email, password, phone, is_admin
@@ -31,13 +33,14 @@ module.exports = (db) => {
       }
     });
   };
-
+*/
   /*
     This post route checks first with userExists function
     whether the user exists in the database and then posts
     the information from the body into the database to register
     the user
   */
+ /*
   router.post("/", (req, res) => {
     userExists(req.body.email, req.body.phone).then((user) => {
       if (user) {
@@ -79,3 +82,4 @@ module.exports = (db) => {
 
   return router;
 };
+*/

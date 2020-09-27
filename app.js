@@ -10,7 +10,8 @@ const dbHelpers = require('./helpers/dbHelpers')(db);
 //!!!!!!!!!!!!Separated Routes for each Resource
 var indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users'); //added
-const sellerRouter = require('./routes/sellers'); //added
+const sellersRouter = require('./routes/sellers'); //added
+//const sellerRouter = require('./routes/sellers'); //added
 
 
 var app = express();
@@ -28,8 +29,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 //!!!!!!!!!!!!!Mount all resource routes
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter(dbHelpers));
-app.use('/users', usersRouter); //added
-app.use('/sellers', sellerRouter) //added
+app.use('/api/sellers', sellersRouter(dbHelpers));
+//app.use('/users', usersRouter); //added
+//app.use('/sellers', sellerRouter) //added
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

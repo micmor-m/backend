@@ -1,29 +1,56 @@
-const getPostsByUsers = (usersPosts) => {
-  const postsByUsers = {};
+const getRatingsByUsers = (usersRatings) => {
+  const ratingsByUsers = {};
 
-  for (let post of usersPosts) {
-    if (!postsByUsers[post.user_id]) {
-      postsByUsers[post.user_id] = {
+  for (let post of usersRatings) {
+    if (!ratingsByUsers[post.user_id]) {
+      ratingsByUsers[post.user_id] = {
         userId: post.user_id,
-        firstName: post.first_name,
-        lastName: post.last_name,
+        name: post.name,
+        //lastName: post.last_name,
         email: post.email,
         posts: [],
       };
     }
 
 
-    postsByUsers[post.user_id].posts.push({
-      title: post.title,
-      content: post.content,
+    ratingsByUsers[post.user_id].posts.push({
+      comment: post.comment,
+      rating: post.rating,
     });
     
 
   }
 
-  return Object.values(postsByUsers);
+  return Object.values(ratingsByUsers);
+};
+
+const getServicesBySellers = (services) => {
+  const servicesBySellers = {};
+
+  for (let post of services) {
+    if (!servicesBySellers[post.user_id]) {
+      servicesBySellers[post.user_id] = {
+        userId: post.user_id,
+        name: post.name,
+        //lastName: post.last_name,
+        email: post.email,
+        posts: [],
+      };
+    }
+
+
+    servicesBySellers[post.user_id].posts.push({
+      comment: post.comment,
+      rating: post.rating,
+    });
+    
+
+  }
+
+  return Object.values(servicesBySellers);
 };
 
 module.exports = {
-  getPostsByUsers,
+  getRatingsByUsers,
+  getServicesBySellers
 };
