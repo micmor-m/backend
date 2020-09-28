@@ -14,7 +14,7 @@ const getRatingsByUsers = (usersRatings) => {
 
 
     ratingsByUsers[rate.user_id].rate.push({
-      comment: rate.comments,
+      comment: rate.comment,
       rating: rate.rating,
     });
     
@@ -42,7 +42,8 @@ const getServicesBySellers = (services) => {
     servicesBySellers[service.id].service.push({
       service: service.service,
       price: service.price,
-      typeofservice: service.typeofservice
+      typeofservice: service.typeofservice,
+      deposit: service.deposit
     });
     
 

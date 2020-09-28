@@ -6,5 +6,6 @@ CREATE TABLE services (
   name VARCHAR(255) NOT NULL,
   price INTEGER  NOT NULL DEFAULT 0,
   typeofservice VARCHAR(255) NOT NULL,
+  deposit INTEGER,
   cleaner_id INTEGER REFERENCES cleaners(id) ON DELETE CASCADE
 );

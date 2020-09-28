@@ -1,5 +1,5 @@
 INSERT INTO
-  ratings(user_id, rating, service_id, comments)
+  ratings(user_id, rating, service_id, comment)
 VALUES
   (1, 3, 2,'In vel quam orci. Susgravida massa lacinia at. Fusce blandit quis lectus ac iaculis.'),
   (3, 4, 2, 'Nte us over a picnic, eh Luigi?'),

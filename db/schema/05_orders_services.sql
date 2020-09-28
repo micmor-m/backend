@@ -2,6 +2,6 @@ DROP TABLE IF EXISTS orders_services CASCADE;
 
 CREATE TABLE orders_services (
   id SERIAL PRIMARY KEY NOT NULL,
-  orders_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
-  services_id INTEGER REFERENCES services(id) ON DELETE CASCADE
+  order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
+  service_id INTEGER REFERENCES services(id) ON DELETE CASCADE
 );

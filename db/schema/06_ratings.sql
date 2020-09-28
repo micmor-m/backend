@@ -5,5 +5,5 @@ CREATE TABLE ratings (
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   rating INTEGER,
   service_id INTEGER REFERENCES services(id) ON DELETE CASCADE,
-  comments  TEXT
+  comment  TEXT
 );
