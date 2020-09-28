@@ -100,6 +100,17 @@ module.exports = (db) => {
       .catch((err) => err);
   };
 
+  const  getServicesById = (id) => {
+    const query = {
+        text: 'SELECT cleaners.*, services.id as services_id, services.name as service, services.price as price, typeofservice, deposit FROM cleaners INNER JOIN services ON cleaners.id = services.cleaner_id WHERE cleaners.id = $1',
+        values:[id]
+    };
+    return db
+      .query(query)
+      .then((result) => result.rows)
+      .catch((err) => err);
+  };
+
   const addSeller = (username, email, description, address, latitude, longitude, picture_url, phone, password) => {
     const query = {
       text: 'INSERT INTO cleaners(username, email, description, address, latitude, longitude, picture_url, phone, password) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
@@ -121,6 +132,7 @@ module.exports = (db) => {
     getUserById,
     getSellerByEmail,
     getSellerById,
-    addSeller
+    addSeller,
+    getServicesById
   };
 };

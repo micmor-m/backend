@@ -52,7 +52,39 @@ const getServicesBySellers = (services) => {
   return Object.values(servicesBySellers);
 };
 
+const getServicesBySeller = (services) => {
+  const servicesBySeller = {};
+
+  for (let service of services) {
+    if (!servicesBySeller[service.id]) {
+      servicesBySeller[service.id] = {
+        cleanerId: service.id,
+        cleanerName: service.username,
+        email: service.email,
+        description: service.description,
+        address: service.address,
+        picture_url: service. picture_url,
+        phone: service.phone,
+        service: [],
+      };
+    }
+
+
+    servicesBySeller[service.id].service.push({
+      service: service.service,
+      price: service.price,
+      typeofservice: service.typeofservice,
+      deposit: service.deposit
+    });
+    
+
+  }
+
+  return Object.values(servicesBySeller);
+};
+
 module.exports = {
   getRatingsByUsers,
-  getServicesBySellers
+  getServicesBySellers,
+  getServicesBySeller
 };
