@@ -1,21 +1,21 @@
 const getRatingsByUsers = (usersRatings) => {
   const ratingsByUsers = {};
 
-  for (let post of usersRatings) {
-    if (!ratingsByUsers[post.user_id]) {
-      ratingsByUsers[post.user_id] = {
-        userId: post.user_id,
-        name: post.name,
+  for (let rate of usersRatings) {
+    if (!ratingsByUsers[rate.user_id]) {
+      ratingsByUsers[rate.user_id] = {
+        userId: rate.user_id,
+        username: rate.username,
         //lastName: post.last_name,
-        email: post.email,
-        posts: [],
+        //email: rate.email,
+        rate: [],
       };
     }
 
 
-    ratingsByUsers[post.user_id].posts.push({
-      comment: post.comments,
-      rating: post.rating,
+    ratingsByUsers[rate.user_id].rate.push({
+      comment: rate.comments,
+      rating: rate.rating,
     });
     
 
@@ -27,22 +27,22 @@ const getRatingsByUsers = (usersRatings) => {
 const getServicesBySellers = (services) => {
   const servicesBySellers = {};
 
-  for (let post of services) {
-    if (!servicesBySellers[post.id]) {
-      servicesBySellers[post.id] = {
-        sellerId: post.id,
-        name: post.name,
+  for (let service of services) {
+    if (!servicesBySellers[service.id]) {
+      servicesBySellers[service.id] = {
+        cleanerId: service.id,
+        cleanerName: service.username,
         //lastName: post.last_name,
         //email: post.email,
-        posts: [],
+        service: [],
       };
     }
 
 
-    servicesBySellers[post.id].posts.push({
-      service: post.service,
-      price: post.price,
-      typeofservice: post.typeofservice
+    servicesBySellers[service.id].service.push({
+      service: service.service,
+      price: service.price,
+      typeofservice: service.typeofservice
     });
     
 

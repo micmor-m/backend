@@ -9,7 +9,7 @@ const { getRatingsByUsers } = require('../helpers/dataHelpers');
 const webToken = process.env.JWT_SECRET_KEY;
 
 //add more function as I create them to access the database
-module.exports = ({ getUsers, getUsersRatings, getUserByEmail, addUser }) => {
+module.exports = ({ getUsers, getUsersRatings, getUserByEmail, addUser, getUserById }) => {
   /* GET users listing. */
   router.get('/', (req, res) => {
     getUsers()
@@ -20,7 +20,6 @@ module.exports = ({ getUsers, getUsersRatings, getUserByEmail, addUser }) => {
   router.get('/ratings', (req, res) => {
     console.log("get usersrating")
     getUsersRatings()
-    //getPostsByUsers
     .then((usersRatings) => {
       console.log("usersRatings", usersRatings)
       //res.json(usersRatings)})
@@ -31,10 +30,10 @@ module.exports = ({ getUsers, getUsersRatings, getUserByEmail, addUser }) => {
       .catch((err) => res.json({ error: err.message }));
   });
 
-  //GET LOGIN ??????????????
+  //GET LOGIN
   router.get('/login',authUser,(req, res) => {
     console.log("get login", req.user)
-    getUsersById(req.user.id)
+    getUserById(req.user.id)
     .then((user) => {
       console.log("user", user)
       res.json(user);
@@ -60,8 +59,8 @@ module.exports = ({ getUsers, getUsersRatings, getUserByEmail, addUser }) => {
   //POST REGISTER
   router.post('/register', (req, res) => {
     console.log("REQ BODY", req.body)
-    const {name, email, lat, lng, password} = req.body;
-    if(!name || !email || !password){
+    const {username, email, latitude, longitude, password} = req.body;
+    if(!username || !email || !password){
       return res.status(400).json({msg: "Please enter all fields"});
     }
     getUserByEmail(email)
@@ -76,7 +75,7 @@ module.exports = ({ getUsers, getUsersRatings, getUserByEmail, addUser }) => {
               const newUser_password = hash;
               
               //return addUser(name, email, lat, lng, newUser_password)
-              addUser(name, email, lat, lng, newUser_password)
+              addUser(username, email, latitude, longitude, newUser_password)
               .then(newUser => {
                 //res.json(newUser)
                 console.log("NEW USER", newUser[0])
@@ -92,7 +91,7 @@ module.exports = ({ getUsers, getUsersRatings, getUserByEmail, addUser }) => {
                       token,
                       user: {
                         id: newUser[0].id,
-                        name: newUser[0].name,
+                        username: newUser[0].username,
                         email: newUser[0].email
                       }
                     });
@@ -140,7 +139,7 @@ module.exports = ({ getUsers, getUsersRatings, getUserByEmail, addUser }) => {
                     token,
                     user: {
                       id: user[0].id,
-                      username: user[0].name,
+                      username: user[0].username,
                       email: user[0].email
                     }
                   });

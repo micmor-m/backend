@@ -1,7 +1,7 @@
 -- Users table seeds here
 -- the password for all users is 'test'
 INSERT INTO
-  users(name, email, lat, lng, password)
+  users(username, email, latitude, longitude, password)
 VALUES
   ('Mario Bros', 'mario@nintendo.com', 45.50, -73.50, 'test'),
   ('Luigi Bros', 'luigi@nintendo.com', 45.20, -73.20, 'test'),
