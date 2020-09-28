@@ -14,7 +14,7 @@ const getRatingsByUsers = (usersRatings) => {
 
 
     ratingsByUsers[post.user_id].posts.push({
-      comment: post.comment,
+      comment: post.comments,
       rating: post.rating,
     });
     
@@ -28,20 +28,21 @@ const getServicesBySellers = (services) => {
   const servicesBySellers = {};
 
   for (let post of services) {
-    if (!servicesBySellers[post.user_id]) {
-      servicesBySellers[post.user_id] = {
-        userId: post.user_id,
+    if (!servicesBySellers[post.id]) {
+      servicesBySellers[post.id] = {
+        sellerId: post.id,
         name: post.name,
         //lastName: post.last_name,
-        email: post.email,
+        //email: post.email,
         posts: [],
       };
     }
 
 
-    servicesBySellers[post.user_id].posts.push({
-      comment: post.comment,
-      rating: post.rating,
+    servicesBySellers[post.id].posts.push({
+      service: post.service,
+      price: post.price,
+      typeofservice: post.typeofservice
     });
     
 

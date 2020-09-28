@@ -12,7 +12,7 @@ module.exports = (db) => {
 
   const getUsersRatings = () => {
     const query = {
-      text: 'SELECT users.id as user_id, name, ratings.id as rating FROM users INNER JOIN ratings ON users.id = ratings.user_id',
+      text: 'SELECT users.id as user_id, name, ratings.id as rating_id, ratings, comments FROM users INNER JOIN ratings ON users.id = ratings.user_id',
     };
   //   text: 'SELECT users.id as user_id, name, email, posts.id as post FROM users INNER JOIN posts ON users.id = posts.user_id',
   // };
@@ -35,7 +35,7 @@ module.exports = (db) => {
 
   const getSellersServices = () => {
     const query = {
-      text: 'SELECT sellers.id, sellers.name, services.name, services.price, services.typeofservice FROM sellers INNER JOIN services ON sellers.id = services.seller_id',
+      text: 'SELECT sellers.id, sellers.name, services.id as services_id, services.name as service, services.price as price, typeofservice FROM sellers INNER JOIN services ON sellers.id = services.seller_id',
     };
   //   text: 'SELECT users.id as user_id, name, email, posts.id as post FROM users INNER JOIN posts ON users.id = posts.user_id',
   // };
