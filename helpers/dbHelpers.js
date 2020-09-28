@@ -35,7 +35,7 @@ module.exports = (db) => {
 
   const getSellersServices = () => {
     const query = {
-      text: 'SELECT cleaners.id, cleaners.username, services.id as services_id, services.name as service, services.price as price, typeofservice, deposit FROM cleaners INNER JOIN services ON cleaners.id = services.cleaner_id',
+      text: 'SELECT cleaners.*, services.id as services_id, services.name as service, services.price as price, typeofservice, deposit FROM cleaners INNER JOIN services ON cleaners.id = services.cleaner_id ',
     };
   //   text: 'SELECT users.id as user_id, name, email, posts.id as post FROM users INNER JOIN posts ON users.id = posts.user_id',
   // };

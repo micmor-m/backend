@@ -32,8 +32,11 @@ const getServicesBySellers = (services) => {
       servicesBySellers[service.id] = {
         cleanerId: service.id,
         cleanerName: service.username,
-        //lastName: post.last_name,
-        //email: post.email,
+        email: service.email,
+        description: service.description,
+        address: service.address,
+        picture_url: service. picture_url,
+        phone: service.phone,
         service: [],
       };
     }
