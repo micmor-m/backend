@@ -9,7 +9,7 @@ const { getRatingsByUsers } = require('../helpers/dataHelpers');
 const webToken = process.env.JWT_SECRET_KEY;
 
 //add more function as I create them to access the database
-module.exports = ({ getUsers, getUsersRatings, getUserByEmail, addUser, getUserById }) => {
+module.exports = ({ getUsers, getUsersRatings, getUserByEmail, addUser, addRating, getUserById }) => {
   /* GET users listing. */
   router.get('/', (req, res) => {
     getUsers()
@@ -151,6 +151,48 @@ module.exports = ({ getUsers, getUsersRatings, getUserByEmail, addUser, getUserB
         })
         .catch(err => res.json({error: err.message}));
       })
+  
+    //POST RATING
+  router.post('/rating/:id', (req, res) => {
+    console.log("REQ BODY", req.body)
+    const { rating, comment, service_id } = req.body;
+    if (!rating || !comment) {
+      return res.status(400).json({ msg: "Please enter all fields" });
+    }
+    const user_id = req.params.id
+    addRating(rating, comment, service_id, user_id)
+      .then(newRating => {
+        //res.json(newUser)
+        //console.log("NEW USER", newUser[0])
+        //req.session.name = newUser[0].id;
+        if (newRating[0] === undefined) {
+          console.log("Something went frong while register a new rating!")
+          res.status(400).json({ msg: 'Sorry, something went wrong rating not saved. Try again' });
+        } else {
+          // jwt.sign(
+          //   { id: newService[0].id },
+          //   webToken, //This is the secret web token in the env variable
+          //   { expiresIn: 3600 }, // expires in 1 hour
+          //   (err, token) => {
+          //     if (err) throw "err from webToken", err;
+
+              res.json({
+                //token,
+                rating: {
+                  id: newRating[0].id,
+                  rating: newRating[0].rating,
+                  comment: newRating[0].comment,
+                  service_id: newRating[0].service_id,
+                  user_id: newRating[0].user_id
+                }
+              });
+            }
+          //)
+        //}
+      })
+      .catch(err => res.json({ error: err.message }));
+  })
+
 
   return router;
 };

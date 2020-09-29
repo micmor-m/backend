@@ -67,6 +67,17 @@ module.exports = (db) => {
       .catch((err) => err);
   };
 
+  const addRating = (rating, comment, service_id, user_id) => {
+    const query = {
+      text: 'INSERT INTO ratings(rating, comment, service_id, user_id) VALUES($1, $2, $3, $4) RETURNING *',
+      values:[rating, comment, service_id, user_id]
+    };
+    return db
+      .query(query)
+      .then((result) => result.rows)
+      .catch((err) => err);
+  };
+
   const getUserByEmail = (email) => {
     const query = {
         text: 'SELECT * FROM users WHERE users.email = $1',
@@ -178,6 +189,7 @@ module.exports = (db) => {
     getServicesById,
     getSellersServicesRatings,
     getRatings,
-    addService
+    addService,
+    addRating
   };
 };
