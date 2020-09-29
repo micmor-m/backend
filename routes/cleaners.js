@@ -115,7 +115,7 @@ module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller,
               jwt.sign(
                 { id: user[0].id },
                 webToken, //This is the secret web token in the env variable
-                { expiresIn: 3600 }, // expires in 1 hour
+                //{ expiresIn: 36000 }, // expires in 1 hour
                 (err, token) => {
                   if (err) throw "err from webToken login POST", err;
 
@@ -153,44 +153,40 @@ module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller,
       .catch((err) => res.json({ error: err.message }));
   });
 
-  //POST SERVICE
+  //POST SERVICE to add service to a cleaner already registered and logged in
   router.post('/cleaner_profile/:id', (req, res) => {
-    console.log("REQ BODY", req.body)
+    //console.log("REQ BODY", req.headers)
+
+    //to get cleaner Id from token
+    const token = req.headers.cleanerttoken
+    decoded = jwt.verify(token, webToken);
+    const cleanerIddecoded = decoded.id
+
+    //to get cleaner Id from route
+    const cleaner_id = req.params.id
+
     const { name, price, typeofservice, deposit } = req.body;
     if (!name || !price || !typeofservice) {
       return res.status(400).json({ msg: "Please enter all fields" });
     }
-    const cleaner_id = req.params.id
     addService(name, price, typeofservice, deposit, cleaner_id)
+      //addService(name, price, typeofservice, deposit, cleanerIddecoded)
       .then(newService => {
-        //res.json(newUser)
-        //console.log("NEW USER", newUser[0])
-        //req.session.name = newUser[0].id;
         if (newService[0] === undefined) {
           console.log("Something went frong while register a new service!")
           res.status(400).json({ msg: 'Sorry, something went wrong service not saved. Try again' });
         } else {
-          // jwt.sign(
-          //   { id: newService[0].id },
-          //   webToken, //This is the secret web token in the env variable
-          //   { expiresIn: 3600 }, // expires in 1 hour
-          //   (err, token) => {
-          //     if (err) throw "err from webToken", err;
-
-              res.json({
-                //token,
-                service: {
-                  id: newService[0].id,
-                  name: newService[0].name,
-                  price: newService[0].price,
-                  typeofservice: newService[0].typeofservice,
-                  deposit: newService[0].deposit,
-                  cleaner_id: newService[0].cleaner_id
-                }
-              });
+          res.json({
+            service: {
+              id: newService[0].id,
+              name: newService[0].name,
+              price: newService[0].price,
+              typeofservice: newService[0].typeofservice,
+              deposit: newService[0].deposit,
+              cleaner_id: newService[0].cleaner_id
             }
-          //)
-        //}
+          });
+        }
       })
       .catch(err => res.json({ error: err.message }));
   })
