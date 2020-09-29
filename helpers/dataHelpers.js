@@ -40,6 +40,7 @@ const getServicesBySellers = (services) => {
         picture_url: service. picture_url,
         phone: service.phone,
         service: [],
+        rating: []
       };
     }
 
@@ -73,6 +74,7 @@ const getServicesBySeller = (services) => {
         picture_url: service. picture_url,
         phone: service.phone,
         service: [],
+        rating: []
       };
     }
 
@@ -107,6 +109,7 @@ const getServicesBySellersRatings = (cleaners) => {
         picture_url: cleaner. picture_url,
         phone: cleaner.phone,
         service: [],
+        rating: []
       };
     }
     console.log("cleaner.service]", cleaner.service)
