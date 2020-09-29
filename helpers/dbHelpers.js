@@ -35,7 +35,7 @@ module.exports = (db) => {
 
   const getSellersServices = () => {
     const query = {
-      text: 'SELECT cleaners.*, services.id as services_id, services.name as service, services.price as price, typeofservice, deposit FROM cleaners INNER JOIN services ON cleaners.id = services.cleaner_id ',
+      text: 'SELECT cleaners.*, services.id as services_id, services.name as service, services.price as price, typeofservice, deposit FROM cleaners FULL OUTER JOIN services ON cleaners.id = services.cleaner_id ',
     };
   //   text: 'SELECT users.id as user_id, name, email, posts.id as post FROM users INNER JOIN posts ON users.id = posts.user_id',
   // };
@@ -102,7 +102,7 @@ module.exports = (db) => {
 
   const  getServicesById = (id) => {
     const query = {
-        text: 'SELECT cleaners.*, services.id as services_id, services.name as service, services.price as price, typeofservice, deposit FROM cleaners INNER JOIN services ON cleaners.id = services.cleaner_id WHERE cleaners.id = $1',
+        text: 'SELECT cleaners.*, services.id as services_id, services.name as service, services.price as price, typeofservice, deposit FROM cleaners FULL OUTER JOIN services ON cleaners.id = services.cleaner_id WHERE cleaners.id = $1',
         values:[id]
     };
     return db
@@ -122,6 +122,21 @@ module.exports = (db) => {
       .catch((err) => err);
   };
 
+  const getSellersServicesRatings = () => {
+    const query = {
+      text: `SELECT cleaners.*, services.id as services_id, services.name as service, services.price as price, typeofservice, deposit, rating, comment
+      FROM cleaners 
+      FULL OUTER JOIN services ON (cleaners.id = services.cleaner_id)
+      FULL OUTER JOIN ratings ON (ratings.service_id = services.id)`,
+    };
+  //   text: 'SELECT users.id as user_id, name, email, posts.id as post FROM users INNER JOIN posts ON users.id = posts.user_id',
+  // };
+    return db
+      .query(query)
+      .then((result) => result.rows)
+      .catch((err) => err);
+  };
+
   return {
     getUsers,
     getUsersRatings,
@@ -133,6 +148,7 @@ module.exports = (db) => {
     getSellerByEmail,
     getSellerById,
     addSeller,
-    getServicesById
+    getServicesById,
+    getSellersServicesRatings
   };
 };

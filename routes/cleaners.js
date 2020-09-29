@@ -4,12 +4,12 @@ const bcrypt = require('bcryptjs');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const authUser = require('../middleWare/authUser')
-const { getServicesBySellers, getServicesBySeller} = require('../helpers/dataHelpers');
+const { getServicesBySellers, getServicesBySeller, getServicesBySellersRatings} = require('../helpers/dataHelpers');
 
 const webToken = process.env.JWT_SECRET_KEY;
 
 //add more function as I create them to access the database
-module.exports = ({ getSellers,  getSellersServices, getSellerByEmail, addSeller, getSellerById, getServicesById }) => {
+module.exports = ({ getSellers,  getSellersServices, getSellerByEmail, addSeller, getSellerById, getServicesById, getSellersServicesRatings }) => {
   console.log('This is from GET cleaners')
   /* GET users listing. */
   router.get('/', (req, res) => {
@@ -156,13 +156,12 @@ module.exports = ({ getSellers,  getSellersServices, getSellerByEmail, addSeller
   
   router.get('/services', (req, res) => {
     console.log("get sellers services")
-    getSellersServices()
-    //getPostsByUsers
+    getSellersServices() //original
+    //getSellersServicesRatings()
     .then((services) => {
       console.log("servicies", services)
-      //res.json(usersRatings)})
-      // .then((usersRatings) => {
-         const formattedServices = getServicesBySellers(services);
+         const formattedServices = getServicesBySellers(services); //original
+         //const formattedServices = getServicesBySellersRatings(services);
          res.json(formattedServices);
        })
       .catch((err) => res.json({ error: err.message }));

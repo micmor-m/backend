@@ -90,8 +90,42 @@ const getServicesBySeller = (services) => {
   return Object.values(servicesBySeller);
 };
 
+//to be updated
+const getServicesBySellersRatings = (cleaners) => {
+  const servicesBySeller = {};
+
+  for (let cleaner of cleaners) {
+    if (!servicesBySeller[cleaner.id]) {
+      servicesBySeller[cleaner.id] = {
+        cleanerId: cleaner.id,
+        cleanerName: cleaner.username,
+        email: cleaner.email,
+        description: cleaner.description,
+        latitude: cleaner.latitude,
+        longitude: cleaner.longitude,
+        address: cleaner.address,
+        picture_url: cleaner. picture_url,
+        phone: cleaner.phone,
+        service: [],
+      };
+    }
+    console.log("cleaner.service]", cleaner.service)
+    //console.log("servicesBySeller.service[cleaner.service]", servicesBySeller[cleaner.id].[service.id])
+    if (!servicesBySeller.service[cleaner.service]) {
+      servicesBySeller[cleaner.id].service.push({
+      service: cleaner.service,
+      price: cleaner.price,
+      typeofservice: cleaner.typeofservice,
+      deposit: cleaner.deposit
+      })
+    }
+  };
+  return Object.values(getServicesBySellersRatings);
+};
+
 module.exports = {
   getRatingsByUsers,
   getServicesBySellers,
-  getServicesBySeller
+  getServicesBySeller,
+  getServicesBySellersRatings
 };
