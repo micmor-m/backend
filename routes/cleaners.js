@@ -3,14 +3,14 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const authUser = require('../middleWare/authUser')
+const authUser = require('../middleWare/authUser');
 const { getServicesBySellers, getServicesBySeller, getServicesBySellersRatings, getRatingsByUsers } = require('../helpers/dataHelpers');
 
 const webToken = process.env.JWT_SECRET_KEY;
 
 //add more function as I create them to access the database
 module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller, addService, getSellerById, getServicesById, getRatings, getSellersServicesRatings }) => {
-  console.log('This is from GET cleaners')
+  //console.log('This is from GET cleaners');
   /* GET users listing. */
   router.get('/', (req, res) => {
     //console.log("REQ from get cleaners /", req)
@@ -21,10 +21,10 @@ module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller,
 
   //GET LOGIN
   router.get('/login', authUser, (req, res) => {
-    console.log("get login", req.user)
+    //console.log("get login", req.user);
     getSellerById(req.user.id)
       .then((seller) => {
-        console.log("seller", seller)
+        //console.log("seller", seller);
         res.json(seller);
       })
       .catch((err) => res.json({ error: err.message }));
@@ -32,14 +32,14 @@ module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller,
 
   //POST REGISTER
   router.post('/register', (req, res) => {
-    console.log("REQ BODY", req.body)
+    //console.log("REQ BODY", req.body);
     const { username, email, description, address, latitude, longitude, picture_url, phone, password } = req.body;
     if (!username || !email || !password) {
       return res.status(400).json({ msg: "Please enter all fields" });
     }
     getSellerByEmail(email)
       .then(user => {
-        console.log("user", user.length)
+        console.log("user", user.length);
         if (user.length >= 1) {
           res.json({ msg: 'Sorry, a user account with this email already exists' });
         } else {
@@ -55,7 +55,7 @@ module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller,
                   //console.log("NEW USER", newUser[0])
                   //req.session.name = newUser[0].id;
                   if (newUser[0] === undefined) {
-                    console.log("Something went frong while register a new cleaner!")
+                    console.log("Something went frong while register a new cleaner!");
                     res.status(400).json({ msg: 'Sorry, something went wrong user not saved. Try again' });
                   } else {
                     jwt.sign(
@@ -81,36 +81,36 @@ module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller,
                         });
 
                       }
-                    )
+                    );
                   }
-                })
-            })
-          })
+                });
+            });
+          });
         }
       })
       .catch(err => res.json({ error: err.message }));
-  })
+  });
 
 
   //POST LOGIN
   router.post('/login', (req, res) => {
-    console.log("REQ BODY", req.body)
+    console.log("REQ BODY", req.body);
     const { email, password } = req.body;
     if (!email || !password) {
       return res.status(400).json({ msg: "Please enter all fields" });
     }
     getSellerByEmail(email)
       .then(user => {
-        console.log("user", user)
+        //console.log("user", user);
         if (user.length < 1) {
           res.json({ msg: "User Does not exists" });
         } else {
           // Validate password
-          console.log("Password, ", password)
-          console.log("user Password, ", user[0].password)
+          //console.log("Password, ", password);
+          //console.log("user Password, ", user[0].password);
           bcrypt.compare(password, user[0].password)
             .then(isMatch => {
-              if (!isMatch) return res.status(400).json({ msg: 'Invalid Credentials' })
+              if (!isMatch) return res.status(400).json({ msg: 'Invalid Credentials' });
 
               jwt.sign(
                 { id: user[0].id },
@@ -128,26 +128,26 @@ module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller,
                     }
                   });
 
-                })
+                });
             })
             .catch(err => res.json({ error: err.message }));
         }
       })
       .catch(err => res.json({ error: err.message }));
-  })
+  });
 
   router.get('/cleaner_profile/:id', (req, res) => {
-    console.log("get sellers services")
-    console.log("req.params.id", req.params.id)
+    //console.log("get sellers services");
+    //console.log("req.params.id", req.params.id);
 
     getServicesById(req.params.id)
       //getPostsByUsers
       .then((services) => {
-        console.log("servicies by ID", services)
+        //console.log("servicies by ID", services);
         //res.json(usersRatings)})
         // .then((usersRatings) => {
         const formattedServicesBySeller = getServicesBySeller(services);
-        console.log("ServiceSELLER:", formattedServicesBySeller)
+        //console.log("ServiceSELLER:", formattedServicesBySeller);
         res.json(formattedServicesBySeller);
       })
       .catch((err) => res.json({ error: err.message }));
@@ -158,22 +158,22 @@ module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller,
     //console.log("REQ BODY", req.headers)
 
     //to get cleaner Id from token
-    const token = req.headers.cleanerttoken
-    decoded = jwt.verify(token, webToken);
-    const cleanerIddecoded = decoded.id
+    const token = req.headers.cleanerttoken;
+    const decoded = jwt.verify(token, webToken);
+    const cleanerIdDecoded = decoded.id;
 
     //to get cleaner Id from route
-    const cleaner_id = req.params.id
+    const cleaner_id = req.params.id;
 
     const { name, price, typeofservice, deposit } = req.body;
     if (!name || !price || !typeofservice) {
       return res.status(400).json({ msg: "Please enter all fields" });
     }
     addService(name, price, typeofservice, deposit, cleaner_id)
-      //addService(name, price, typeofservice, deposit, cleanerIddecoded)
+      //addService(name, price, typeofservice, deposit, cleanerIdDecoded)
       .then(newService => {
         if (newService[0] === undefined) {
-          console.log("Something went frong while register a new service!")
+          console.log("Something went frong while register a new service!");
           res.status(400).json({ msg: 'Sorry, something went wrong service not saved. Try again' });
         } else {
           res.json({
@@ -189,32 +189,32 @@ module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller,
         }
       })
       .catch(err => res.json({ error: err.message }));
-  })
+  });
 
   router.get('/services', (req, res) => {
-    console.log("get sellers services")
+    //console.log("get sellers services");
     getSellersServices() //original
       //getSellersServicesRatings()
       .then((services) => {
-        console.log("servicies", services)
+        //console.log("servicies", services);
         getRatings()
           .then((ratings) => {
-            console.log("ratings", ratings)
+            //console.log("ratings", ratings);
             const formattedServices = getServicesBySellers(services); //original
             //const formattedServices = getServicesBySellersRatings(services);
             for (let cleaner of formattedServices) {
-              console.log("cleaner", cleaner)
+              //console.log("cleaner", cleaner);
               for (let rate of ratings) {
-                console.log("rate", rate)
+                //console.log("rate", rate);
                 if (rate.cleaner_id === cleaner.cleanerId) {
-                  cleaner.rating.push(rate)
+                  cleaner.rating.push(rate);
                 }
               }
-            };
+            }
             res.json(formattedServices);
           })
           .catch((err) => res.json({ error: err.message }));
-      })
+      });
   });
 
 

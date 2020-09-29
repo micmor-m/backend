@@ -1,37 +1,37 @@
 
-const express = require('express');
-const router = express.Router();
-const { getServicesBySellers } = require('../helpers/dataHelpers');
+// const express = require('express');
+// const router = express.Router();
+// const { getServicesBySellers } = require('../helpers/dataHelpers');
 
-//add more function as I create them to access the database
-module.exports = ({ getSellers,  getSellersServices }) => {
-  console.log('This is from GET seller')
-  /* GET users listing. */
-  router.get('/', (req, res) => {
-    getSellers()
-      .then((sellers) => res.json(sellers))
-      .catch((err) => res.json({ error: err.message }));
-  });
+// //add more function as I create them to access the database
+// module.exports = ({ getSellers,  getSellersServices }) => {
+//   console.log('This is from GET seller')
+//   /* GET users listing. */
+//   router.get('/', (req, res) => {
+//     getSellers()
+//       .then((sellers) => res.json(sellers))
+//       .catch((err) => res.json({ error: err.message }));
+//   });
 
-  router.get('/services', (req, res) => {
-    console.log("get sellers services")
-    getSellersServices()
-    //getPostsByUsers
-    .then((services) => {
-      console.log("servicies", services)
-      //res.json(usersRatings)})
-      // .then((usersRatings) => {
-         const formattedServices = getServicesBySellers(services);
-         res.json(formattedServices);
-       })
-      .catch((err) => res.json({ error: err.message }));
-  });
-
-
+//   router.get('/services', (req, res) => {
+//     console.log("get sellers services")
+//     getSellersServices()
+//     //getPostsByUsers
+//     .then((services) => {
+//       console.log("servicies", services)
+//       //res.json(usersRatings)})
+//       // .then((usersRatings) => {
+//          const formattedServices = getServicesBySellers(services);
+//          res.json(formattedServices);
+//        })
+//       .catch((err) => res.json({ error: err.message }));
+//   });
 
 
-  return router;
-};
+
+
+//   return router;
+// };
 
 
 
