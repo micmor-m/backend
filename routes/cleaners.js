@@ -9,7 +9,7 @@ const { getServicesBySellers, getServicesBySeller, getServicesBySellersRatings, 
 const webToken = process.env.JWT_SECRET_KEY;
 
 //add more function as I create them to access the database
-module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller, getSellerById, getServicesById, getRatings, getSellersServicesRatings }) => {
+module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller, addService, getSellerById, getServicesById, getRatings, getSellersServicesRatings }) => {
   console.log('This is from GET cleaners')
   /* GET users listing. */
   router.get('/', (req, res) => {
@@ -152,6 +152,48 @@ module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller,
       })
       .catch((err) => res.json({ error: err.message }));
   });
+
+  //POST SERVICE
+  router.post('/cleaner_profile/:id', (req, res) => {
+    console.log("REQ BODY", req.body)
+    const { name, price, typeofservice, deposit } = req.body;
+    if (!name || !price || !typeofservice) {
+      return res.status(400).json({ msg: "Please enter all fields" });
+    }
+    const cleaner_id = req.params.id
+    addService(name, price, typeofservice, deposit, cleaner_id)
+      .then(newService => {
+        //res.json(newUser)
+        //console.log("NEW USER", newUser[0])
+        //req.session.name = newUser[0].id;
+        if (newService[0] === undefined) {
+          console.log("Something went frong while register a new service!")
+          res.status(400).json({ msg: 'Sorry, something went wrong service not saved. Try again' });
+        } else {
+          // jwt.sign(
+          //   { id: newService[0].id },
+          //   webToken, //This is the secret web token in the env variable
+          //   { expiresIn: 3600 }, // expires in 1 hour
+          //   (err, token) => {
+          //     if (err) throw "err from webToken", err;
+
+              res.json({
+                //token,
+                service: {
+                  id: newService[0].id,
+                  name: newService[0].name,
+                  price: newService[0].price,
+                  typeofservice: newService[0].typeofservice,
+                  deposit: newService[0].deposit,
+                  cleaner_id: newService[0].cleaner_id
+                }
+              });
+            }
+          //)
+        //}
+      })
+      .catch(err => res.json({ error: err.message }));
+  })
 
   router.get('/services', (req, res) => {
     console.log("get sellers services")

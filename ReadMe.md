@@ -7,5 +7,5 @@
 4. Reset database: `npm run db:reset`
   - Check the db folder to see what gets created and seeded in the SDB
 7. Run the server: `npm run dev`
-  - Note: Restart your server after any change
+  - Note: nodemon is used, so you should not have to restart your server
 8. Visit `http://localhost:5000/`
