@@ -155,6 +155,13 @@ module.exports = ({ getUsers, getUsersRatings, getUserByEmail, addUser, addRatin
     if (!rating || !comment) {
       return res.status(400).json({ msg: "Please enter all fields" });
     }
+     //to get user Id from token
+     const token = req.headers.userttoken;
+     const decoded = jwt.verify(token, webToken);
+     const userIdDecoded = decoded.id;
+     //console.log("user token", userIdDecoded)
+
+    //to get user Id from route
     const user_id = req.params.id;
     addRating(rating, comment, service_id, user_id)
       .then(newRating => {
