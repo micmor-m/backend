@@ -33,8 +33,9 @@ module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller,
   //POST REGISTER
   router.post('/register', (req, res) => {
     //console.log("REQ BODY", req.body);
-    const { username, email, description, address, latitude, longitude, picture_url, phone, password } = req.body;
+    const { username, email, description, address, latitude, longitude, pictureUrl, phone, password } = req.body;
     if (!username || !email || !password) {
+      console.log("Mandatory fields are empty");
       return res.status(400).json({ msg: "Please enter all fields" });
     }
     getSellerByEmail(email)
@@ -49,10 +50,10 @@ module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller,
               const newUser_password = hash;
 
               //return addUser(name, email, lat, lng, newUser_password)
-              addSeller(username, email, description, address, latitude, longitude, picture_url, phone, newUser_password)
+              addSeller(username, email, description, address, latitude, longitude, pictureUrl, phone, newUser_password)
                 .then(newUser => {
                   //res.json(newUser)
-                  //console.log("NEW USER", newUser[0])
+                  console.log("picture_url", pictureUrl)
                   //req.session.name = newUser[0].id;
                   if (newUser[0] === undefined) {
                     console.log("Something went frong while register a new cleaner!");
@@ -75,7 +76,7 @@ module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller,
                             address: newUser[0].address,
                             latitude: newUser[0].latitude,
                             longitude: newUser[0].longitude,
-                            picture_url: newUser[0].picture_url,
+                            pictureUrl: newUser[0].picture_url,
                             phone: newUser[0].phone,
                           }
                         });
@@ -154,12 +155,15 @@ module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller,
   });
 
   //POST SERVICE to add service to a cleaner already registered and logged in
-  router.post('/cleaner_profile/:id', (req, res) => {
-    //console.log("REQ BODY", req.headers)
+  router.post('/service', (req, res) => {
+    console.log("REQ Headers", req.headers)
+    console.log("REQ BODY", req.body)
 
-    //to get cleaner Id from token
+    //to get cleaner Id from token in headers
     const token = req.headers.cleanerttoken;
+    console.log("token", token)
     const decoded = jwt.verify(token, webToken);
+    console.log("token decoded", decoded)
     const cleanerIdDecoded = decoded.id;
 
     //to get cleaner Id from route
@@ -169,8 +173,8 @@ module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller,
     if (!name || !price || !typeofservice) {
       return res.status(400).json({ msg: "Please enter all fields" });
     }
-    addService(name, price, typeofservice, deposit, cleaner_id)
-      //addService(name, price, typeofservice, deposit, cleanerIdDecoded)
+    //addService(name, price, typeofservice, deposit, cleaner_id)
+    addService(name, price*100, typeofservice, deposit, cleanerIdDecoded)
       .then(newService => {
         if (newService[0] === undefined) {
           console.log("Something went frong while register a new service!");

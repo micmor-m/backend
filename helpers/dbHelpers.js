@@ -133,10 +133,10 @@ module.exports = (db) => {
       .catch((err) => err);
   };
 
-  const addSeller = (username, email, description, address, latitude, longitude, picture_url, phone, password) => {
+  const addSeller = (username, email, description, address, latitude, longitude, pictureUrl, phone, password) => {
     const query = {
       text: 'INSERT INTO cleaners(username, email, description, address, latitude, longitude, picture_url, phone, password) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
-      values:[username, email, description, address, latitude, longitude, picture_url, phone, password]
+      values:[username, email, description, address, latitude, longitude, pictureUrl, phone, password]
     };
     return db
       .query(query)
