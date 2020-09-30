@@ -149,9 +149,11 @@ module.exports = ({ getUsers, getUsersRatings, getUserByEmail, addUser, addRatin
   });
 
   //POST RATING
-  router.post('/rating/:id', (req, res) => {
+  router.post('/rating', (req, res) => {
     //console.log("REQ BODY", req.body);
-    const { rating, comment, service_id } = req.body;
+    //console.log("REQ HEADERS", req.headers);
+
+    let { rating, comment, service } = req.body;
     if (!rating || !comment) {
       return res.status(400).json({ msg: "Please enter all fields" });
     }
@@ -159,11 +161,15 @@ module.exports = ({ getUsers, getUsersRatings, getUserByEmail, addUser, addRatin
      const token = req.headers.userttoken;
      const decoded = jwt.verify(token, webToken);
      const userIdDecoded = decoded.id;
-     //console.log("user token", userIdDecoded)
+     console.log("user token", userIdDecoded)
+
+     let serviceId = parseInt(service);
+     console.log(" serviceId", serviceId)
 
     //to get user Id from route
     const user_id = req.params.id;
-    addRating(rating, comment, service_id, user_id)
+    
+    addRating(rating, comment, serviceId, userIdDecoded)
       .then(newRating => {
         if (newRating[0] === undefined) {
           console.log("Something went frong while register a new rating!");
