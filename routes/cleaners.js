@@ -9,7 +9,7 @@ const { getServicesBySellers, getServicesBySeller, getServicesBySellersRatings, 
 const webToken = process.env.JWT_SECRET_KEY;
 
 //add more function as I create them to access the database
-module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller, addService, getSellerById, getServicesById, getRatings, getSellersServicesRatings }) => {
+module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller, addService, getSellerById, getServicesById, getRatings, updateService, deleteService, getSellersServicesRatings }) => {
   //console.log('This is from GET cleaners');
   /* GET users listing. */
   router.get('/', (req, res) => {
@@ -193,6 +193,78 @@ module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller,
         }
       })
       .catch(err => res.json({ error: err.message }));
+  });
+
+  //POST SERVICE to UPDATE existing service of a cleaner
+  router.post('/service/update', (req, res) => {
+    console.log("REQ Headers", req.headers)
+    console.log("REQ BODY", req.body)
+
+    //to get cleaner Id from token in headers
+    const token = req.headers.cleanerttoken;
+    console.log("token", token)
+    const decoded = jwt.verify(token, webToken);
+    console.log("token decoded", decoded)
+    const cleanerIdDecoded = decoded.id;
+
+    //to get cleaner Id from route
+    const cleaner_id = req.params.id;
+
+    const { name, price, typeofservice, deposit, service_id } = req.body;
+    if (!name || !price || !typeofservice) {
+      return res.status(400).json({ msg: "Please enter all fields" });
+    }
+    //addService(name, price, typeofservice, deposit, cleaner_id)
+    updateService(name, price*100, typeofservice, deposit, cleanerIdDecoded, service_id)
+      .then(updateService => {
+        if (updateService[0] === undefined) {
+          console.log("Something went frong while register the updated service!");
+          res.status(400).json({ msg: 'Sorry, something went wrong service not updated. Try again' });
+        } else {
+          res.json({
+            service: {
+              id: updateService[0].id,
+              name: updateService[0].name,
+              price: updateService[0].price,
+              typeofservice: updateService[0].typeofservice,
+              deposit: updateService[0].deposit,
+              cleaner_id: updateService[0].cleaner_id
+            }
+          });
+        }
+      })
+      .catch(err => res.json({ error: err.message }));
+  });
+
+  //POST SERVICE to DELETE existing service of a cleaner
+  router.post('/service/delete', (req, res) => {
+    console.log("REQ Headers", req.headers)
+    console.log("REQ BODY", req.body)
+
+    //to get cleaner Id from token in headers
+    const token = req.headers.cleanerttoken;
+    console.log("token", token)
+    const decoded = jwt.verify(token, webToken);
+    console.log("token decoded", decoded)
+    const cleanerIdDecoded = decoded.id;
+
+    //to get cleaner Id from route
+    const cleaner_id = req.params.id;
+
+    const { service_id } = req.body;
+    console.log("service_id", service_id)
+    updateService(service_id)
+    .then(deleteService => {
+    //   if (updateService[0] === undefined) {
+         console.log("Service deleted");
+    //     res.status(400).json({ msg: 'Sorry, something went wrong service not updated. Try again' });
+    //   } else {
+        res.json({
+          service: 'deleted'
+        });
+      //}
+    })
+    // .catch(err => res.json({ error: err.message }));
   });
 
   router.get('/services', (req, res) => {

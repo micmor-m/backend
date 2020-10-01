@@ -67,6 +67,29 @@ module.exports = (db) => {
       .catch((err) => err);
   };
 
+  const updateService = (name, price, typeofservice, deposit, cleaner_id, service_id) => {
+    const query = {
+      text: `UPDATE services SET name = $1, price = $2, typeofservice = $3, deposit = $4, cleaner_id = $5
+      WHERE services.id = $6 RETURNING *`,
+      values:[name, price, typeofservice, deposit, cleaner_id, service_id]
+    };
+    return db
+      .query(query)
+      .then((result) => result.rows)
+      .catch((err) => err);
+  };
+
+  const deleteService = (service_id) => {
+    const query = {
+      text: `DELETE FROM services WHERE services.id = $1 RETURNING *`,
+      values:[service_id]
+    };
+    return db
+      .query(query)
+      .then((result) => result.rows)
+      .catch((err) => err);
+  };
+
   const addRating = (rating, comment, service_id, user_id) => {
     const query = {
       text: 'INSERT INTO ratings(rating, comment, service_id, user_id) VALUES($1, $2, $3, $4) RETURNING *',
@@ -205,6 +228,8 @@ module.exports = (db) => {
     getRatings,
     addService,
     addRating,
-    getServiceId
+    getServiceId,
+    updateService,
+    deleteService
   };
 };
