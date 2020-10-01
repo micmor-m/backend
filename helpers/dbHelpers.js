@@ -122,7 +122,21 @@ module.exports = (db) => {
       .catch((err) => err);
   };
 
-  const  getServicesById = (id) => {
+  const getServiceId = (cleanerId, service) => {
+    const query = {
+        text: `SELECT services.id
+        FROM services
+        JOIN cleaners ON cleaners.id = services.cleaner_id 
+        WHERE cleaners.id = $1 AND services.name = $2`,
+        values:[cleanerId, service]
+    };
+    return db
+      .query(query)
+      .then((result) => result.rows)
+      .catch((err) => err);
+  };
+
+  const getServicesById = (id) => {
     const query = {
         text: 'SELECT cleaners.*, services.id as services_id, services.name as service, services.price as price, typeofservice, deposit FROM cleaners FULL OUTER JOIN services ON cleaners.id = services.cleaner_id WHERE cleaners.id = $1',
         values:[id]
@@ -190,6 +204,7 @@ module.exports = (db) => {
     getSellersServicesRatings,
     getRatings,
     addService,
-    addRating
+    addRating,
+    getServiceId
   };
 };

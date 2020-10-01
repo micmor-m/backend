@@ -9,7 +9,7 @@ const { getRatingsByUsers } = require('../helpers/dataHelpers');
 const webToken = process.env.JWT_SECRET_KEY;
 
 //add more function as I create them to access the database
-module.exports = ({ getUsers, getUsersRatings, getUserByEmail, addUser, addRating, getUserById }) => {
+module.exports = ({ getUsers, getUsersRatings, getUserByEmail, addUser, addRating, getUserById, getServiceId }) => {
   /* GET users listing. */
   router.get('/', (req, res) => {
     getUsers()
@@ -150,10 +150,10 @@ module.exports = ({ getUsers, getUsersRatings, getUserByEmail, addUser, addRatin
 
   //POST RATING
   router.post('/rating', (req, res) => {
-    //console.log("REQ BODY", req.body);
+    console.log("REQ BODY", req.body);
     //console.log("REQ HEADERS", req.headers);
 
-    let { rating, comment, service } = req.body;
+    let { rating, comment, service, cleanerId } = req.body;
     if (!rating || !comment) {
       return res.status(400).json({ msg: "Please enter all fields" });
     }
@@ -163,13 +163,11 @@ module.exports = ({ getUsers, getUsersRatings, getUserByEmail, addUser, addRatin
      const userIdDecoded = decoded.id;
      console.log("user token", userIdDecoded)
 
-     let serviceId = parseInt(service);
-     console.log(" serviceId", serviceId)
-
-    //to get user Id from route
-    const user_id = req.params.id;
-    
-    addRating(rating, comment, serviceId, userIdDecoded)
+     getServiceId(cleanerId, service)
+    .then (serviceId => {
+      console.log("serviceId", serviceId[0].id)
+      //console.log("rating", rating, typeof rating)
+      addRating(rating, comment, serviceId[0].id, userIdDecoded)
       .then(newRating => {
         if (newRating[0] === undefined) {
           console.log("Something went frong while register a new rating!");
@@ -187,8 +185,12 @@ module.exports = ({ getUsers, getUsersRatings, getUserByEmail, addUser, addRatin
         }
       })
       .catch(err => res.json({ error: err.message }));
+    })
+     
+    //to get user Id from route
+    //const user_id = req.params.id;
+    
   });
-
 
   return router;
 };
