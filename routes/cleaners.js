@@ -249,14 +249,14 @@ module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller,
     const cleanerIdDecoded = decoded.id;
 
     //to get cleaner Id from route
-    const cleaner_id = req.params.id;
+    //const cleaner_id = req.params.id;
 
-    const { service_id } = req.body;
-    console.log("service_id", service_id)
-    updateService(service_id)
+    const { cleanerId, serviceId } = req.body;
+    console.log("service_id", serviceId)
+    deleteService(serviceId)
     .then(deleteService => {
     //   if (updateService[0] === undefined) {
-         console.log("Service deleted");
+         console.log("Service deleted", deleteService);
     //     res.status(400).json({ msg: 'Sorry, something went wrong service not updated. Try again' });
     //   } else {
         res.json({
