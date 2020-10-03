@@ -12,6 +12,7 @@ var indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users'); //added
 //const sellersRouter = require('./routes/sellers'); //added
 const cleanersRouter = require('./routes/cleaners'); //added
+const twilioRouter = require('./routes/twilio'); //added
 
 
 var app = express();
@@ -31,6 +32,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter(dbHelpers));
 //app.use('/sellers', sellersRouter(dbHelpers));
 app.use('/cleaners', cleanersRouter(dbHelpers));
+app.use('/twilio', twilioRouter())
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
