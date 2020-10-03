@@ -9,7 +9,7 @@ const { getServicesBySellers, getServicesBySeller, getServicesBySellersRatings, 
 const webToken = process.env.JWT_SECRET_KEY;
 
 //add more function as I create them to access the database
-module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller, addService, getSellerById, getServicesById, getRatings, updateService, deleteService, getSellersServicesRatings }) => {
+module.exports = ({  getRatingsById, getSellers, getSellersServices, getSellerByEmail, addSeller, addService, getSellerById, getServicesById, getRatings, updateService, deleteService, getSellersServicesRatings }) => {
   //console.log('This is from GET cleaners');
   /* GET users listing. */
   router.get('/', (req, res) => {
@@ -137,22 +137,49 @@ module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller,
       .catch(err => res.json({ error: err.message }));
   });
 
-  router.get('/cleaner_profile/:id', (req, res) => {
+  router.get('/profile/:id', (req, res) => {
     //console.log("get sellers services");
-    //console.log("req.params.id", req.params.id);
+    console.log("get seller services req.params.id", req.params.id);
 
     getServicesById(req.params.id)
-      //getPostsByUsers
       .then((services) => {
-        //console.log("servicies by ID", services);
-        //res.json(usersRatings)})
-        // .then((usersRatings) => {
-        const formattedServicesBySeller = getServicesBySeller(services);
-        //console.log("ServiceSELLER:", formattedServicesBySeller);
-        res.json(formattedServicesBySeller);
-      })
-      .catch((err) => res.json({ error: err.message }));
+        console.log("servicies", services);
+        getRatingsById(req.params.id)
+          .then((ratings) => {
+            console.log("ratings", ratings);
+            const formattedServices = getServicesBySeller(services); //original
+            //const formattedServices = getServicesBySellersRatings(services);
+            for (let cleaner of formattedServices) {
+              //console.log("cleaner", cleaner);
+              for (let rate of ratings) {
+                //console.log("rate", rate);
+                if (rate.cleaner_id === cleaner.cleanerId) {
+                  cleaner.rating.push(rate);
+                }
+              }
+            }
+            res.json(formattedServices);
+          })
+          .catch((err) => res.json({ error: err.message }));
+      });
   });
+
+  // router.get('/cleaner_profile/:id', (req, res) => {
+  //   //console.log("get sellers services");
+  //   //console.log("req.params.id", req.params.id);
+
+  //   getServicesById(req.params.id)
+  //     //getPostsByUsers
+  //     .then((services) => {
+  //       //console.log("servicies by ID", services);
+  //       //res.json(usersRatings)})
+  //       // .then((usersRatings) => {
+  //       const formattedServicesBySeller = getServicesBySeller(services);
+  //       //console.log("ServiceSELLER:", formattedServicesBySeller);
+  //       res.json(formattedServicesBySeller);
+  //     })
+  //     .catch((err) => res.json({ error: err.message }));
+  // });
 
   //POST SERVICE to add service to a cleaner already registered and logged in
   router.post('/service', (req, res) => {
@@ -267,6 +294,9 @@ module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller,
     // .catch(err => res.json({ error: err.message }));
   });
 
+
+
+
   router.get('/services', (req, res) => {
     //console.log("get sellers services");
     getSellersServices() //original
@@ -292,6 +322,10 @@ module.exports = ({ getSellers, getSellersServices, getSellerByEmail, addSeller,
           .catch((err) => res.json({ error: err.message }));
       });
   });
+
+
+
+  
 
 
 

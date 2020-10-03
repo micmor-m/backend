@@ -80,7 +80,7 @@ const getServicesBySeller = (services) => {
     }
 
     servicesBySeller[service.id].service.push({
-      //service_id: service.services_id, //add this line to get easily service Id in the frontend
+      service_id: service.services_id, //add this line to get easily service Id in the frontend
       service: service.service,
       price: service.price,
       typeofservice: service.typeofservice,
