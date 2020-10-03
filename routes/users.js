@@ -163,6 +163,8 @@ module.exports = ({ getUsers, getUsersRatings, getUserByEmail, addUser, addRatin
      const userIdDecoded = decoded.id;
      console.log("user token", userIdDecoded)
 
+     console.log(" cleanerId", cleanerId)
+     console.log(" service",service)
      getServiceId(cleanerId, service)
     .then (serviceId => {
       console.log("serviceId", serviceId[0].id)

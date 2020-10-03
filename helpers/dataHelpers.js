@@ -44,7 +44,8 @@ const getServicesBySellers = (services) => {
       };
     }
 
-
+    //console.log("servicesBySellers[service.id].service ", servicesBySellers[service.id] )
+    if (service.services_id !== null){ //add Octobe 3 to avoid get service array with one element null
     servicesBySellers[service.id].service.push({
       service_id: service.services_id, //add this line to get easily service Id in the frontend
       service: service.service,
@@ -52,7 +53,7 @@ const getServicesBySellers = (services) => {
       typeofservice: service.typeofservice,
       deposit: service.deposit
     });
-    
+    }
 
   }
 
@@ -78,14 +79,16 @@ const getServicesBySeller = (services) => {
         rating: []
       };
     }
-
+    //console.log("servicesBySeller[service.id].service.services_id ", servicesBySeller[service.id].service.services_id )
+    //if (servicesBySeller[service.id].service.services_id !== null){ //add Octobe 3 to avoid get service array with one element null
     servicesBySeller[service.id].service.push({
-      //service_id: service.services_id, //add this line to get easily service Id in the frontend
+      service_id: service.services_id, //add this line to get easily service Id in the frontend
       service: service.service,
       price: service.price,
       typeofservice: service.typeofservice,
       deposit: service.deposit
     });
+    //}
     
   }
 
