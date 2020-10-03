@@ -302,7 +302,7 @@ module.exports = ({  getRatingsById, getSellers, getSellersServices, getSellerBy
     getSellersServices() //original
       //getSellersServicesRatings()
       .then((services) => {
-        //console.log("servicies", services);
+        console.log("servicies", services);
         getRatings()
           .then((ratings) => {
             //console.log("ratings", ratings);
