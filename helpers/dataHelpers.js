@@ -6,19 +6,14 @@ const getRatingsByUsers = (usersRatings) => {
       ratingsByUsers[rate.user_id] = {
         userId: rate.user_id,
         username: rate.username,
-        //lastName: post.last_name,
-        //email: rate.email,
         rate: [],
       };
     }
-
 
     ratingsByUsers[rate.user_id].rate.push({
       comment: rate.comment,
       rating: rate.rating,
     });
-    
-
   }
 
   return Object.values(ratingsByUsers);
@@ -37,24 +32,22 @@ const getServicesBySellers = (services) => {
         address: service.address,
         latitude: service.latitude,
         longitude: service.longitude,
-        picture_url: service. picture_url,
+        picture_url: service.picture_url,
         phone: service.phone,
         service: [],
         rating: []
       };
     }
 
-    //console.log("servicesBySellers[service.id].service ", servicesBySellers[service.id] )
-    if (service.services_id !== null){ //add Octobe 3 to avoid get service array with one element null
-    servicesBySellers[service.id].service.push({
-      service_id: service.services_id, //add this line to get easily service Id in the frontend
-      service: service.service,
-      price: service.price,
-      typeofservice: service.typeofservice,
-      deposit: service.deposit
-    });
+    if (service.services_id !== null) { //add Octobe 3 to avoid get service array with one element null
+      servicesBySellers[service.id].service.push({
+        service_id: service.services_id, //add this line to get easily service Id in the frontend
+        service: service.service,
+        price: service.price,
+        typeofservice: service.typeofservice,
+        deposit: service.deposit
+      });
     }
-
   }
 
   return Object.values(servicesBySellers);
@@ -73,7 +66,7 @@ const getServicesBySeller = (services) => {
         latitude: service.latitude,
         longitude: service.longitude,
         address: service.address,
-        picture_url: service. picture_url,
+        picture_url: service.picture_url,
         phone: service.phone,
         service: [],
         rating: []
@@ -89,7 +82,6 @@ const getServicesBySeller = (services) => {
       deposit: service.deposit
     });
     //}
-    
   }
 
   return Object.values(servicesBySeller);
@@ -109,23 +101,22 @@ const getServicesBySellersRatings = (cleaners) => {
         latitude: cleaner.latitude,
         longitude: cleaner.longitude,
         address: cleaner.address,
-        picture_url: cleaner. picture_url,
+        picture_url: cleaner.picture_url,
         phone: cleaner.phone,
         service: [],
         rating: []
       };
     }
-    console.log("cleaner.service]", cleaner.service)
-    //console.log("servicesBySeller.service[cleaner.service]", servicesBySeller[cleaner.id].[service.id])
+
     if (!servicesBySeller.service[cleaner.service]) {
       servicesBySeller[cleaner.id].service.push({
-      service: cleaner.service,
-      price: cleaner.price,
-      typeofservice: cleaner.typeofservice,
-      deposit: cleaner.deposit
-      })
+        service: cleaner.service,
+        price: cleaner.price,
+        typeofservice: cleaner.typeofservice,
+        deposit: cleaner.deposit
+      });
     }
-  };
+  }
   return Object.values(getServicesBySellersRatings);
 };
 

@@ -48,7 +48,7 @@ module.exports = ({ getRatingsById, getSellers, getSellersServices, getSellerByE
               //return addUser(name, email, lat, lng, newUser_password)
               addSeller(username, email, description, address, latitude, longitude, pictureUrl, phone, newUser_password)
                 .then(newUser => {
-                  console.log("picture_url", pictureUrl)
+                  //console.log("picture_url", pictureUrl);
                   if (newUser[0] === undefined) {
                     console.log("Something went frong while register a new cleaner!");
                     res.status(400).json({ msg: 'Sorry, something went wrong user not saved. Try again' });
@@ -152,14 +152,14 @@ module.exports = ({ getRatingsById, getSellers, getSellersServices, getSellerByE
 
   //POST SERVICE to add service to a cleaner already registered and logged in
   router.post('/service', (req, res) => {
-    console.log("REQ Headers", req.headers)
-    console.log("REQ BODY", req.body)
+    console.log("REQ Headers", req.headers);
+    console.log("REQ BODY", req.body);
 
     //to get cleaner Id from token in headers
     const token = req.headers.cleanerttoken;
-    console.log("token", token)
+    console.log("token", token);
     const decoded = jwt.verify(token, webToken);
-    console.log("token decoded", decoded)
+    console.log("token decoded", decoded);
     const cleanerIdDecoded = decoded.id;
 
     //to get cleaner Id from route
@@ -193,14 +193,14 @@ module.exports = ({ getRatingsById, getSellers, getSellersServices, getSellerByE
 
   //POST SERVICE to UPDATE existing service of a cleaner
   router.post('/service/update', (req, res) => {
-    console.log("REQ Headers", req.headers)
-    console.log("REQ BODY", req.body)
+    console.log("REQ Headers", req.headers);
+    console.log("REQ BODY", req.body);
 
     //to get cleaner Id from token in headers
     const token = req.headers.cleanerttoken;
-    console.log("token", token)
+    console.log("token", token);
     const decoded = jwt.verify(token, webToken);
-    console.log("token decoded", decoded)
+    console.log("token decoded", decoded);
     const cleanerIdDecoded = decoded.id;
 
     //to get cleaner Id from route
@@ -233,26 +233,26 @@ module.exports = ({ getRatingsById, getSellers, getSellersServices, getSellerByE
 
   //POST SERVICE to DELETE existing service of a cleaner
   router.post('/service/delete', (req, res) => {
-    console.log("REQ Headers", req.headers)
-    console.log("REQ BODY", req.body)
+    console.log("REQ Headers", req.headers);
+    console.log("REQ BODY", req.body);
 
     //to get cleaner Id from token in headers
     const token = req.headers.cleanerttoken;
-    console.log("token", token)
+    console.log("token", token);
     const decoded = jwt.verify(token, webToken);
-    console.log("token decoded", decoded)
+    console.log("token decoded", decoded);
     const cleanerIdDecoded = decoded.id;
 
     //to get cleaner Id from route
     const { cleanerId, serviceId } = req.body;
-    console.log("service_id", serviceId)
+    console.log("service_id", serviceId);
     deleteService(serviceId)
       .then(deleteService => {
         console.log("Service deleted", deleteService);
         res.json({
           service: 'deleted'
         });
-      })
+      });
   });
 
   router.get('/services', (req, res) => {

@@ -133,13 +133,13 @@ module.exports = ({ getUsers, getUsersRatings, getUserByEmail, addUser, addRatin
     const token = req.headers.userttoken;
     const decoded = jwt.verify(token, webToken);
     const userIdDecoded = decoded.id;
-    console.log("user token", userIdDecoded)
+    console.log("user token", userIdDecoded);
 
-    console.log(" cleanerId", cleanerId)
-    console.log(" service", service)
+    console.log(" cleanerId", cleanerId);
+    console.log(" service", service);
     getServiceId(cleanerId, service)
       .then(serviceId => {
-        console.log("serviceId", serviceId[0].id)
+        console.log("serviceId", serviceId[0].id);
         addRating(rating, comment, serviceId[0].id, userIdDecoded)
           .then(newRating => {
             if (newRating[0] === undefined) {
@@ -158,7 +158,7 @@ module.exports = ({ getUsers, getUsersRatings, getUserByEmail, addUser, addRatin
             }
           })
           .catch(err => res.json({ error: err.message }));
-      })
+      });
   });
 
   return router;
