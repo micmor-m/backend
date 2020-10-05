@@ -3,8 +3,8 @@
 INSERT INTO
   users(username, email, latitude, longitude, password)
 VALUES
-  ('Mario Bros', 'mario@nintendo.com', 45.50, -73.50, 'test'),
-  ('Luigi Bros', 'luigi@nintendo.com', 45.20, -73.20, 'test'),
-  ('Princess Peach', 'peach@nintendo.com', 45.10, -73.10, 'test'),
-  ('Princess Daisy', 'daisy@nintendo.com', 45.30, -73.30, 'test'),
-  ('Donkey Kong', 'donkey@nintendo.com', 45.40, -73.40, 'test');
+  ('Yoshi', 'yoshy@gmail.com', 43.652552, -79.470063, 'test'),
+  ('Buzz', 'buzz@gmail.com', 43.618453, -79.374063, 'test'),
+  ('Popeye', 'pop@gmail.com', 43.672641, -79.288008, 'test'),
+  ('Donal Duck', 'donald@gmail.com', 43.70887, -79.296207, 'test'),
+  ('Goofy', 'goofy@gmail.com', 43.773022, -79.228652, 'test');
